@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CRM.Views.ItemsPage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:CRM.ViewModels"  
+             xmlns:model="clr-namespace:CRM.Models"  
+             x:Name="BrowseItemsPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Task" Command="{Binding AddItemCommand}" />
+    </ContentPage.ToolbarItems>
+    <!--
+      x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
+      https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
+    -->
+    <StackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Text = "Filter" FontSize="20" Padding="10"/>
+            <Picker Grid.Column="1" x:Name="Picker" SelectedIndexChanged="Filter">
+                <Picker.Items>
+                    <x:String>username</x:String>
+                    <x:String>email</x:String>
+                    <x:String>status</x:String>
+                </Picker.Items>
+            </Picker>
+            <Picker Grid.Column="2" x:Name="Range" SelectedIndexChanged="Ranges">
+                <Picker.Items>
+                    <x:String>asc</x:String>
+                    <x:String>desc</x:String>
+                </Picker.Items>
+            </Picker>
+        </Grid>
+        <RefreshView Grid.Row="1" x:DataType="local:ItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView x:Name="ItemsListView"
+                            ItemsSource="{Binding Items}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" x:DataType="model:Item">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Column="0" Text="Name : " 
+                                    LineBreakMode="NoWrap" 
+                                    BackgroundColor="{Binding color}"
+                                    Style="{DynamicResource ListItemTextStyle}" 
+                                    FontSize="16" />
+                                <Label Grid.Column="1" Text="{Binding username}" 
+                                    LineBreakMode="NoWrap" 
+                                    BackgroundColor="{Binding color}"
+                                    Style="{DynamicResource ListItemTextStyle}" 
+                                    FontSize="13" />
+                                <Label Grid.Column="0" Grid.Row="1" Text="Email : " 
+                                    LineBreakMode="NoWrap" 
+                                    BackgroundColor="{Binding color}"
+                                    Style="{DynamicResource ListItemTextStyle}" 
+                                    FontSize="16" />
+                                <Label Grid.Column="1" Grid.Row="1" Text="{Binding email}" 
+                                    LineBreakMode="NoWrap"
+                                    BackgroundColor="{Binding color}"
+                                    Style="{DynamicResource ListItemDetailTextStyle}"
+                                    FontSize="13" />
+                                <Label Grid.Column="0" Grid.Row="2" Text="Status : " 
+                                    LineBreakMode="NoWrap" 
+                                    BackgroundColor="{Binding color}"
+                                    Style="{DynamicResource ListItemTextStyle}" 
+                                    FontSize="16" />
+                                <Label Grid.Column="1" Grid.Row="2" Text="{Binding status}" 
+                                    LineBreakMode="NoWrap"
+                                    BackgroundColor="{Binding color}"   
+                                    Style="{DynamicResource ListItemDetailTextStyle}"
+                                    FontSize="13" />
+                                <Label Grid.Column="0" Grid.Row="3" Text="Task : " 
+                                    LineBreakMode="NoWrap" 
+                                    BackgroundColor="{Binding color}"   
+                                    Style="{DynamicResource ListItemTextStyle}" 
+                                    FontSize="16" />
+                                <Label Grid.Column="1" Grid.Row="3" Text="{Binding text}" 
+                                    LineBreakMode="NoWrap"
+                                    BackgroundColor="{Binding color}"   
+                                    Style="{DynamicResource ListItemDetailTextStyle}"
+                                    FontSize="13" />
+                            </Grid>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                        NumberOfTapsRequired="1"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"		
+                                        CommandParameter="{Binding .}">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Button Grid.Column="0" x:Name="Previous" Text="Previous" BackgroundColor="#aaa" CornerRadius="25"/>
+            <Button Grid.Column="1" x:Name="Next" Text="Next" BackgroundColor="#aaa" CornerRadius="25"/>
+        </Grid>
+
+    </StackLayout>
+</ContentPage>

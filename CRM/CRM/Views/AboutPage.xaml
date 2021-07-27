@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CRM.Views.AboutPage"
+             xmlns:vm="clr-namespace:CRM.ViewModels"
+             Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="Profile" Text="Exit" Clicked="Exit" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <Entry Grid.Column="0" x:Name = "Login" Placeholder="Login"/>
+        <Entry Grid.Column="1" x:Name = "Password" Placeholder="Password"/>
+        <Button Grid.Column="2" x:Name="Enter" Text="Enter"/>
+        <Label Grid.Row="1" Grid.Column="1" x:Name="LoginNotification" FontSize="Title"/>
+    </Grid>
+
+</ContentPage>
